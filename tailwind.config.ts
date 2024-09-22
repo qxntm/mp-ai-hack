@@ -9,8 +9,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        'custom-bg': '#F4F7FE',
+        'primary-navy-blue': '#062F6E',
+        'primary-blue': '#00AEEF',
+        'green': '#14CA74',
+        'secondary-green': '#05C168',
+        'red': '#FF5A65',
+        'secondary-red': '#FF5A65'
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],  // Set Inter as the default sans-serif font
       },
     },
   },
