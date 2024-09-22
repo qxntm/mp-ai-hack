@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ArrowUpRight, ArrowDownRight } from "@phosphor-icons/react";
 
 interface StatusProps {
-  status: "add" | "minus";
+  status: "add" | "minus" | "equal";
   prediction: number | string; // Prediction can now be a number or string
   unit?: string;  // Optional unit prop
 }

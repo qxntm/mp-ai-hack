@@ -36,29 +36,14 @@ type IconType = keyof typeof icons;
 
 interface IconTypeProps {
   iconType: IconType;
-  value: number | string; // Value can now be a number or string
-  prediction: number | string; // Prediction can also be a number or string
+  value: number; // Value can now be a number or string
+  prediction: number; // Prediction can also be a number or string
   unit?: string;
 }
 
-function convertFractionToNumber(fraction: string): number {
-  // Split the string by '/'
-  const [numeratorStr, denominatorStr] = fraction.split('/');
-
-  // Convert strings to numbers
-  const numerator = parseFloat(numeratorStr);
-  const denominator = parseFloat(denominatorStr);
-
-  // Perform the division and return the result
-  return numerator / denominator;
-}
-
 export default function SmallCard({ iconType, value, prediction, unit }: IconTypeProps) {
-  
-  let numericValue = typeof value === 'string' && iconType === 'ratio' ? convertFractionToNumber(value) : Number(value);
-  let numericPrediction = typeof prediction === 'string' && iconType === 'ratio' ? convertFractionToNumber(prediction) : Number(prediction);
 
-  const status = numericPrediction > numericValue ? 'add' : 'minus';
+  const status = prediction > value ? 'add' : prediction > value ? 'minus' : 'equal';
 
   return (
     <div className="min-w-[285px] h-[112.5px] bg-white px-[20px] py-[21px] rounded-2xl">
@@ -70,7 +55,7 @@ export default function SmallCard({ iconType, value, prediction, unit }: IconTyp
           <div className="text-sm text-primary-blue">{name[iconType]}</div>
           <div className='flex items-center gap-x-3'>
             <div className="text-primary-navy-blue font-bold text-3xl">{value}</div>
-            <Status status={status} prediction={prediction} unit={unit} />
+            {status !== 'equal' && <Status status={status} prediction={prediction} unit={unit} />}
           </div>
         </div>
       </div>
