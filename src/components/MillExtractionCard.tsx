@@ -12,9 +12,10 @@ export default function MillExtractionCard({
   prediction,
 }: valueProps) {
   const status = prediction > percentage ? "add" : "minus";
+  const formattedPercentage = percentage.toFixed(4);
 
   return (
-    <div className="min-w-[315px] h-[250px] bg-white px-[25px] py-[30px] rounded-2xl">
+    <div className="min-w-[315px] h-[250px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
       <div className="text-2xl text-primary-navy-blue font-bold">
         First Mill Extraction
       </div>
@@ -41,7 +42,7 @@ export default function MillExtractionCard({
         </div>
         <div className="flex flex-col items-center">
           <div className="text-primary-navy-blue font-bold text-3xl">
-            {percentage}%
+            {formattedPercentage}%
           </div>
           <Status status={status} prediction={prediction} />
         </div>

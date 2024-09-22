@@ -1,61 +1,137 @@
-'use client'
-import React from 'react';
-import Status from './Status';
+"use client";
+import React from "react";
+import Status from "./Status";
 
 const icons = {
   speed: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#062f6e" viewBox="0 0 256 256">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
       <path d="M232,231.47a8.17,8.17,0,0,0-8.25-7.47H182.94l-6.3-44.12,3.24,1.91a16,16,0,0,0,21.91-5.67l11.81-20a16.49,16.49,0,0,0,2.11-11.49,15.92,15.92,0,0,0-7.6-10.74L148.93,99a8.18,8.18,0,0,1-3.33-10.63,8,8,0,0,1,11.21-3.3l20.95,12.33A4,4,0,0,0,183.24,96l30.55-51.9a16,16,0,0,0-5.67-21.92l-20.34-12a16,16,0,0,0-21.91,5.67l-35,59.42a8,8,0,0,1-11.79,2.27A8.13,8.13,0,0,1,117.21,67l12.23-20.78A4,4,0,0,0,128,40.76L76.12,10.22a16,16,0,0,0-21.91,5.67l-11.81,20a16.47,16.47,0,0,0-2.11,11.48,16,16,0,0,0,7.6,10.75L107.08,93a8.16,8.16,0,0,1,3.47,10.3,8,8,0,0,1-11.36,3.62l-21-12.34A4,4,0,0,0,72.76,96l-30.55,51.9a16,16,0,0,0,5.67,21.91l20.34,12a15.57,15.57,0,0,0,10.58,2L73.06,224H32.27A8.17,8.17,0,0,0,24,231.47,8,8,0,0,0,32,240H224A8,8,0,0,0,232,231.47ZM89.22,224,98,162.8l12.77-21.7h0L125,116.93a8.18,8.18,0,0,1,10.62-3.33,8,8,0,0,1,3.3,11.21l-12.33,21a4,4,0,0,0,1.42,5.47l31,18.25L166.78,224Z"></path>
     </svg>
   ),
   p: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#062f6e" viewBox="0 0 256 256">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
       <path d="M228,112c0,23.6-8.29,45.23-23.35,60.88C190.52,187.57,171.33,196,152,196c-15.45,0-26.78-4.18-34.89-9.31l-9.43,40.06a12,12,0,1,1-23.36-5.5l32-136a12,12,0,1,1,23.36,5.5l-16.45,69.93C126.72,164.86,135.16,172,152,172c25.56,0,52-22.45,52-60A68,68,0,1,0,77.09,146a12,12,0,0,1-20.77,12A92,92,0,1,1,228,112Z"></path>
     </svg>
   ),
   ratio: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#062f6e" viewBox="0 0 256 256">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
       <path d="M208.49,64.47l-144,144a12,12,0,1,1-17-17l144-144a12,12,0,0,1,17,17ZM47.72,104.27A40,40,0,1,1,76,116,39.72,39.72,0,0,1,47.72,104.27ZM60,76a16,16,0,1,0,4.69-11.31A15.87,15.87,0,0,0,60,76ZM220,180a40,40,0,1,1-11.72-28.29A39.71,39.71,0,0,1,220,180Zm-24,0a15.87,15.87,0,0,0-4.69-11.32h0A16,16,0,1,0,196,180Z"></path>
     </svg>
   ),
   g: (
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#062f6e" viewBox="0 0 256 256">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
       <path d="M228,128a100,100,0,1,1-22.86-63.64,12,12,0,0,1-18.51,15.28A76,76,0,1,0,203.05,140H128a12,12,0,0,1,0-24h88A12,12,0,0,1,228,128Z"></path>
     </svg>
-  )
+  ),
+  pol: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
+      <path d="M232,116h-4.72A100.21,100.21,0,0,0,140,28.72V24a12,12,0,0,0-24,0v4.72A100.21,100.21,0,0,0,28.72,116H24a12,12,0,0,0,0,24h4.72A100.21,100.21,0,0,0,116,227.28V232a12,12,0,0,0,24,0v-4.72A100.21,100.21,0,0,0,227.28,140H232a12,12,0,0,0,0-24Zm-92,87v-3a12,12,0,0,0-24,0v3a76.15,76.15,0,0,1-63-63h3a12,12,0,0,0,0-24H53a76.15,76.15,0,0,1,63-63v3a12,12,0,0,0,24,0V53a76.15,76.15,0,0,1,63,63h-3a12,12,0,0,0,0,24h3A76.15,76.15,0,0,1,140,203ZM128,84a44,44,0,1,0,44,44A44.05,44.05,0,0,0,128,84Zm0,64a20,20,0,1,1,20-20A20,20,0,0,1,128,148Z"></path>
+    </svg>
+  ),
+  fiber: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
+      <path d="M227.42,39.86a12,12,0,0,0-11.28-11.28c-39.6-2.33-74.59,2.34-104,13.87C84,53.48,62.31,70.58,49.39,91.9c-17.62,29.11-17.66,64.45-.45,98.19L31.51,207.52a12,12,0,0,0,17,17l17.43-17.43c16.74,8.54,33.88,12.85,50.45,12.85a91.31,91.31,0,0,0,47.74-13.3c21.32-12.92,38.42-34.62,49.45-62.75C225.08,114.46,229.75,79.46,227.42,39.86ZM151.66,186.08C131.57,198.25,108,199.17,83.94,189l84.54-84.54a12,12,0,1,0-17-17L67,172.06c-10.14-24-9.22-47.63,3-67.72,20.91-34.53,70.54-53.72,134-52.25C205.38,115.53,186.19,165.17,151.66,186.08Z"></path>
+    </svg>
+  ),
+  torque: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
+      <path d="M128,76a52,52,0,1,0,52,52A52.06,52.06,0,0,0,128,76Zm0,80a28,28,0,1,1,28-28A28,28,0,0,1,128,156Zm113.86-49.57A12,12,0,0,0,236,98.34L208.21,82.49l-.11-31.31a12,12,0,0,0-4.25-9.12,116,116,0,0,0-38-21.41,12,12,0,0,0-9.68.89L128,37.27,99.83,21.53a12,12,0,0,0-9.7-.9,116.06,116.06,0,0,0-38,21.47,12,12,0,0,0-4.24,9.1l-.14,31.34L20,98.35a12,12,0,0,0-5.85,8.11,110.7,110.7,0,0,0,0,43.11A12,12,0,0,0,20,157.66l27.82,15.85.11,31.31a12,12,0,0,0,4.25,9.12,116,116,0,0,0,38,21.41,12,12,0,0,0,9.68-.89L128,218.73l28.14,15.74a12,12,0,0,0,9.7.9,116.06,116.06,0,0,0,38-21.47,12,12,0,0,0,4.24-9.1l.14-31.34,27.81-15.81a12,12,0,0,0,5.85-8.11A110.7,110.7,0,0,0,241.86,106.43Zm-22.63,33.18-26.88,15.28a11.94,11.94,0,0,0-4.55,4.59c-.54,1-1.11,1.93-1.7,2.88a12,12,0,0,0-1.83,6.31L184.13,199a91.83,91.83,0,0,1-21.07,11.87l-27.15-15.19a12,12,0,0,0-5.86-1.53h-.29c-1.14,0-2.3,0-3.44,0a12.08,12.08,0,0,0-6.14,1.51L93,210.82A92.27,92.27,0,0,1,71.88,199l-.11-30.24a12,12,0,0,0-1.83-6.32c-.58-.94-1.16-1.91-1.7-2.88A11.92,11.92,0,0,0,63.7,155L36.8,139.63a86.53,86.53,0,0,1,0-23.24l26.88-15.28a12,12,0,0,0,4.55-4.58c.54-1,1.11-1.94,1.7-2.89a12,12,0,0,0,1.83-6.31L71.87,57A91.83,91.83,0,0,1,92.94,45.17l27.15,15.19a11.92,11.92,0,0,0,6.15,1.52c1.14,0,2.3,0,3.44,0a12.08,12.08,0,0,0,6.14-1.51L163,45.18A92.27,92.27,0,0,1,184.12,57l.11,30.24a12,12,0,0,0,1.83,6.32c.58.94,1.16,1.91,1.7,2.88A11.92,11.92,0,0,0,192.3,101l26.9,15.33A86.53,86.53,0,0,1,219.23,139.61Z"></path>
+    </svg>
+  ),
 };
 
 const name = {
-  speed: 'Mill Speed',
-  p: 'P Side Pressure',
-  g: 'G Side Pressure',
-  ratio: 'Mill Ratio'
-}
+  speed: "Mill Speed",
+  p: "P Side Pressure",
+  g: "G Side Pressure",
+  ratio: "Mill Ratio",
+  pol: "%Pol Shredded Cane",
+  fiber: "%Fiber Shredded Cane",
+  torque: "Crushing Torque",
+};
 
 type IconType = keyof typeof icons;
 
 interface IconTypeProps {
   iconType: IconType;
-  value: number; // Value can now be a number or string
-  prediction: number; // Prediction can also be a number or string
+  value: number;
+  prediction?: number;
   unit?: string;
 }
 
-export default function SmallCard({ iconType, value, prediction, unit }: IconTypeProps) {
+export default function SmallCard({
+  iconType,
+  value,
+  prediction,
+  unit,
+}: IconTypeProps) {
+  let status: "add" | "minus" | "equal" = "equal"; // Default to "equal" if no prediction
 
-  const status = prediction > value ? 'add' : prediction > value ? 'minus' : 'equal';
+  // Ensure status is one of the three accepted values
+  if (prediction !== undefined) {
+    status =
+      prediction > value ? "add" : prediction < value ? "minus" : "equal";
+  }
+
+  const formattedValue = parseFloat(value.toFixed(4));
 
   return (
-    <div className="min-w-[285px] h-[112.5px] bg-white px-[20px] py-[21px] rounded-2xl">
-      <div className='flex gap-4 items-center'>
-        <div className='rounded-full bg-custom-bg w-[70px] h-[70px] flex items-center justify-center'>
+    <div className="min-w-[285px] h-[112.5px] bg-white px-[20px] py-[21px] rounded-2xl drop-shadow-xl">
+      <div className="flex gap-4 items-center">
+        <div className="rounded-full bg-custom-bg w-[70px] h-[70px] flex items-center justify-center">
           {icons[iconType] || icons.speed}
         </div>
         <div>
           <div className="text-sm text-primary-blue">{name[iconType]}</div>
-          <div className='flex items-center gap-x-3'>
-            <div className="text-primary-navy-blue font-bold text-3xl">{value}</div>
-            {status !== 'equal' && <Status status={status} prediction={prediction} unit={unit} />}
+          <div className="flex items-center gap-x-3">
+            <div className="text-primary-navy-blue font-bold text-3xl">
+              {formattedValue}
+            </div>
+            {status !== "equal" && prediction !== undefined && (
+              <Status status={status} prediction={prediction} unit={unit} />
+            )}
           </div>
         </div>
       </div>

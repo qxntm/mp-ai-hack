@@ -45,7 +45,7 @@ export default function ChuteLevelCard({ percentage }: valueProps) {
   };
 
   return (
-    <div className="min-w-[315px] h-[250px] bg-white px-[25px] py-[30px] rounded-2xl">
+    <div className="min-w-[315px] h-[250px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
       <div className="text-2xl text-primary-navy-blue font-bold">
         Chute Level
       </div>

@@ -36,25 +36,28 @@ interface MillOperationalCardProps {
 export default function MillOperationalCard({
   millData,
 }: MillOperationalCardProps) {
-  const [dataIndex, setDataIndex] = useState(1);
+  const [dataIndex, setDataIndex] = useState(0); // Start at index 0
 
   // Set the interval to update the chart
   useEffect(() => {
     const interval = setInterval(() => {
-      setDataIndex((prevIndex) =>
-        Math.min(prevIndex + 1, millData.millSpeed.length)
-      );
+      setDataIndex((prevIndex) => {
+        const newIndex =
+          prevIndex === millData.millSpeed.length - 1 ? 0 : prevIndex + 1;
+        console.log("Updated Index: ", newIndex); // Debugging
+        return newIndex;
+      });
     }, 5000); // Update every 5 seconds
 
-    return () => clearInterval(interval);
-  }, [millData]);
+    return () => clearInterval(interval); // Clean up the interval
+  }, []); // Empty dependency array
 
   const chartData = {
-    labels: millData.millSpeed.slice(0, dataIndex).map((_, index) => index * 5), // Adjust x-axis for timing
+    labels: millData.millSpeed.slice(0, dataIndex + 1).map((_, index) => index * 15), // Adjust x-axis for timing
     datasets: [
       {
         label: "Mill Speed",
-        data: millData.millSpeed.slice(0, dataIndex),
+        data: millData.millSpeed.slice(0, dataIndex + 1),
         borderColor: "#7B61FF",
         backgroundColor: "#7B61FF",
         fill: false,
@@ -63,7 +66,7 @@ export default function MillOperationalCard({
       },
       {
         label: "Mill Ratio",
-        data: millData.millRatio.slice(0, dataIndex),
+        data: millData.millRatio.slice(0, dataIndex + 1),
         borderColor: "#F5A25D",
         backgroundColor: "#F5A25D",
         fill: false,
@@ -72,7 +75,7 @@ export default function MillOperationalCard({
       },
       {
         label: "G Side Pressure",
-        data: millData.gSidePressure.slice(0, dataIndex),
+        data: millData.gSidePressure.slice(0, dataIndex + 1),
         borderColor: "#4AB5EB",
         backgroundColor: "#4AB5EB",
         fill: false,
@@ -81,7 +84,7 @@ export default function MillOperationalCard({
       },
       {
         label: "P Side Pressure",
-        data: millData.pSidePressure.slice(0, dataIndex),
+        data: millData.pSidePressure.slice(0, dataIndex + 1),
         borderColor: "#FAD862",
         backgroundColor: "#FAD862",
         fill: false,
@@ -90,7 +93,7 @@ export default function MillOperationalCard({
       },
       {
         label: "First Mill Extraction",
-        data: millData.firstMillExtraction.slice(0, dataIndex),
+        data: millData.firstMillExtraction.slice(0, dataIndex + 1),
         borderColor: "#456CFF",
         backgroundColor: "#456CFF",
         fill: false,
@@ -168,16 +171,16 @@ export default function MillOperationalCard({
     plugins: {
       legend: {
         display: true,
-        position: "bottom", // Explicitly using "bottom" (without casting to a general string)
+        position: "bottom",
         labels: {
-          boxWidth: 5, // Adjusted boxWidth for better visualization
+          boxWidth: 5,
         },
       },
     },
   };
 
   return (
-    <div className="min-w-[690px] h-[400px] bg-white px-[25px] py-[30px] rounded-2xl">
+    <div className="min-w-[690px] h-[400px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
       <div className="text-2xl text-primary-navy-blue font-bold">
         Mill Operational
       </div>
