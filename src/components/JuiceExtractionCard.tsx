@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions
 } from "chart.js";
 
 ChartJS.register(
@@ -64,7 +65,7 @@ export default function JuiceExtractionCard({
     ],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
@@ -101,7 +102,7 @@ export default function JuiceExtractionCard({
 
   return (
     <div className="min-w-[315px] h-[400px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mx-5">
         <div>
           <div className="text-2xl text-primary-navy-blue font-bold">
             Juice Extraction
