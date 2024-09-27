@@ -9,7 +9,7 @@ interface StatusProps {
 
 export default function Status({ status, prediction, unit = '%' }: StatusProps) {
   const [isAdd, setAdd] = useState(false);
-  const formattedPrediction = parseFloat(prediction.toFixed(4));
+  const formattedPrediction = parseFloat(prediction.toFixed(2));
 
   useEffect(() => {
     setAdd(status === "add");

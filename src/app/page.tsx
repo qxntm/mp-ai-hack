@@ -65,7 +65,7 @@ export default function Home() {
           </div>
         </div>
         <div className="w-1/4">
-          <ChuteLevelCard percentage={80} />
+          <ChuteLevelCard percentage={49.5} />
         </div>
       </div>
       <div className="flex justify-between">

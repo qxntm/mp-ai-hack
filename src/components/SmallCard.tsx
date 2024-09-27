@@ -115,7 +115,7 @@ export default function SmallCard({
       prediction > value ? "add" : prediction < value ? "minus" : "equal";
   }
 
-  const formattedValue = parseFloat(value.toFixed(4));
+  const formattedValue = parseFloat(value.toFixed(2));
 
   return (
     <div className="min-w-[285px] h-[112.5px] bg-white px-[20px] py-[21px] rounded-2xl drop-shadow-xl">
