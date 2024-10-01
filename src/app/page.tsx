@@ -5,7 +5,8 @@ import MillExtractionCard from "@/components/FirstMillExtractionCard";
 import ChuteLevelCard from "@/components/ChuteLevelCard";
 import MillOperationalCard from "@/components/MillOperationalCard";
 import JuiceExtractionCard from "@/components/JuiceExtractionCard";
-import data from "@/app/data/output.json"; // Import JSON data
+import data from "@/app/data/output.json";
+import dataDisplay from "@/app/data/display.json";
 import TargetCard from "@/components/TargetCard";
 import PiCard from "@/components/PiCard";
 
@@ -16,14 +17,14 @@ export default function Home() {
     const interval = setInterval(() => {
       // Update the index every 2000ms
       setCurrentIndex((prevIndex) =>
-        prevIndex === data.data.length - 1 ? 0 : prevIndex + 1
+        prevIndex === dataDisplay.dataDisplay.length - 1 ? 0 : prevIndex + 1
       );
     }, 2000);
 
     return () => clearInterval(interval); // Clean up the interval on component unmount
   }, []);
 
-  const currentData = data.data[currentIndex]; // Get the current data based on the index
+  const currentData = dataDisplay.dataDisplay[currentIndex]; // Get the current dataDisplay based on the index
 
   return (
     <div className="bg-custom-bg min-h-screen px-20 py-16">
@@ -36,42 +37,42 @@ export default function Home() {
           <div className="flex flex-col justify-between w-1/2 mr-[25px] gap-[25px]">
             <SmallCard
               iconType="psfSpeed"
-              value={currentData.mill_speed || 0}
-              prediction={6}
+              value={currentData.psf_speed || 0}
+              prediction={currentData.psf_speed_predict}
               unit="rpm"
             />
             <SmallCard
               iconType="psfCurrent"
-              value={currentData.hydraulic_top_cap_pressure || 0}
-              prediction={2000}
+              value={currentData.psf_current || 0}
+              prediction={currentData.psf_current_predict}
               unit="Amp"
             />
           </div>
           <div className="flex flex-col justify-between w-1/2 mr-[25px] gap-[25px]">
             <SmallCard
               iconType="crushingSpeed"
-              value={currentData.mill_ratio || 0}
-              prediction={1.4}
+              value={currentData.crushing_speed || 0}
+              prediction={currentData.crushing_speed_predict}
               unit="rpm"
             />
             <SmallCard
               iconType="crushingCurrent"
-              value={currentData.hydraulic_top_cap_pressure || 0}
-              prediction={2100}
+              value={currentData.crushing_current || 0}
+              prediction={currentData.crushing_current_predict}
               unit="Amp"
             />
           </div>
           <div className="flex flex-col justify-between w-1/2 gap-[25px]">
             <SmallCard
               iconType="g"
-              value={currentData.hydraulic_top_cap_pressure || 0}
-              prediction={1.4}
+              value={currentData.g_side_pressure || 0}
+              prediction={currentData.g_side_pressure_predict}
               unit="Psi."
             />
             <SmallCard
               iconType="p"
-              value={currentData.hydraulic_top_cap_pressure || 0}
-              prediction={2100}
+              value={currentData.p_side_pressure || 0}
+              prediction={currentData.p_side_pressure_predict}
               unit="Psi."
             />
           </div>
@@ -87,33 +88,33 @@ export default function Home() {
           <div className="w-1/5 mr-[25px] flex flex-col space-y-[25px]">
             <PiCard value={5} />
             <MillExtractionCard
-              percentage={currentData.first_mill_extraction_percentage}
-              prediction={currentData.prediction_first_mill_extraction}
+              percentage={currentData.mill_extraction}
+              prediction={currentData.mill_extraction_predict}
             />
           </div>
           <div className="flex flex-col justify-between w-1/5 mr-[25px]">
             <TargetCard
               iconType="pol"
-              first={currentData.mill_speed || 0}
-              shredded={currentData.mill_ratio || 0}
+              first={currentData.pol_first_bagasse_percentage || 0}
+              shredded={currentData.pol_shredded_cane_percentage || 0}
             />
           </div>
           <div className="flex flex-col justify-between w-1/5 mr-[25px]">
             <TargetCard
               iconType="fiber"
-              first={currentData.mill_speed || 0}
-              shredded={currentData.mill_ratio || 0}
+              first={currentData.fiber_first_bagasse_percentage || 0}
+              shredded={currentData.fiber_shredded_cane_percentage || 0}
             />
           </div>
           <div className="flex flex-col justify-between w-1/5 mr-[25px]">
             <TargetCard
               iconType="moisture"
-              first={currentData.mill_speed || 0}
-              shredded={currentData.mill_ratio || 0}
+              first={currentData.moisture_first_bagasse_percentage || 0}
+              shredded={currentData.moisture_shredded_cane_percentage || 0}
             />
           </div>
           <div className="w-1/5">
-            <ChuteLevelCard percentage={80} />
+            <ChuteLevelCard percentage={currentData.chute_level} />
           </div>
         </div>
         <div className="flex justify-between">
@@ -121,19 +122,20 @@ export default function Home() {
             <MillOperationalCard
               millData={{
                 fiber: [
-                  39.173, 78.7305, 79.7266, 40.6133, 40.7318, 40.2522, 42.4928,
-                  42.4662,
+                  40.93188666666666, 41.53821538461538, 42.1766, 40.85375555555556,
+                  42.2286875, 42.222813333333335, 42.135106666666665, 42.10496153846154
                 ],
                 moisture: [
-                  46.3232, 89.8382, 89.4427, 43.7368, 44.1023, 43.6163, 42.5346,
-                  41.672,
+                  42.52235333333333, 42.26698461538462, 42.478275, 44.005766666666666,
+                  41.3603375, 41.31212, 41.73322, 41.49173846153846
                 ],
                 pol: [
-                  15.2163, 30.9792, 28.6212, 13.8767, 16.945, 16.9013, 14.5092,
-                  14.6775,
+                  14.793233333333331, 14.21696153846154, 13.360375, 13.929655555555556,
+                  13.486225, 13.5652, 13.666266666666669, 13.695607692307693
                 ],
                 firstMillExtraction: [
-                  76.632, 75.4217, 73.127, 74.107, 76.1959, 76.4614, 72.9596,
+                  72.89335333333334, 74.16583076923077, 75.059675, 74.77127777777778,
+                  76.2900625, 75.81694666666667, 76.1747, 74.00877692307692
                 ],
               }}
             />
