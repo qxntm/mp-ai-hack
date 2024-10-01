@@ -15,18 +15,20 @@ export default function MillExtractionCard({
   const formattedPercentage = percentage.toFixed(2);
 
   return (
-    <div className="min-w-[315px] h-[250px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
-      <div className="text-2xl text-primary-navy-blue font-bold">
-        First Mill Extraction
+    <div className="min-w-[300px] min-h-[250px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl flex flex-col space-y-[10px]">
+      <div>
+        <div className="text-2xl text-primary-navy-blue font-bold">
+          First Mill Extraction
+        </div>
+        <div className="text-sm text-primary-blue">Percentage</div>
       </div>
-      <div className="text-sm text-primary-blue">Percentage</div>
       <div className="flex items-center justify-center space-x-5">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="117"
             height="150"
-            viewBox="25 25 200 200"
+            viewBox="40 20 180 200"
           >
             <defs>
               <linearGradient id="grad" x1="0" y1="1" x2="0" y2="0">

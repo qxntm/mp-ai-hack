@@ -27,10 +27,9 @@ ChartJS.register(
 
 interface MillOperationalCardProps {
   millData: {
-    millSpeed: number[];
-    millRatio: number[];
-    gSidePressure: number[];
-    pSidePressure: number[];
+    fiber: number[];
+    moisture: number[];
+    pol: number[];
     firstMillExtraction: number[];
   };
 }
@@ -42,30 +41,24 @@ export default function MillOperationalCard({
   const [timeFrame, setTimeFrame] = useState("Now"); // Set default to 'Now'
 
   const staticMillData = {
-    millSpeed: [
-      5.71165, 11.44813, 11.44295, 5.70069, 5.73559, 5.71442, 5.71299, 5.72897,
-      5.71664, 5.73482, 5.72166, 5.73037, 5.71541, 5.71833, 5.71917, 5.71676,
-      5.73138, 5.71129, 5.71551, 5.72948, 5.71639, 5.71713, 5.71689, 5.71761,
-      5.72301, 5.71168, 5.73413, 5.70592, 5.72921, 5.70915, 5.71869, 5.74472,
+    fiber: [
+      39.173, 78.7305, 79.7266, 40.6133, 40.7318, 40.2522, 42.4928, 42.4662, 42.0725, 
+      40.5442, 40.1643, 40.379, 40.7538, 40.6051, 39.6014, 39.3357, 39.6875, 38.6081, 
+      40.5404, 40.0494, 40.896, 40.9699, 41.3805, 41.6365, 41.6744, 41.5772, 41.2175, 
+      41.4942, 40.9637, 42.1571, 40.2315, 40.5053
+    ],    
+    moisture: [
+      46.3232, 89.8382, 89.4427, 43.7368, 44.1023, 43.6163, 42.5346, 41.672, 43.3564, 
+      44.6138, 43.3272, 42.8782, 42.4985, 44.4027, 44.1047, 42.7431, 44.7243, 45.6997, 
+      44.8134, 44.0915, 44.0684, 43.0943, 42.7575, 42.4519, 41.4498, 42.6689, 45.5945, 
+      42.2927, 40.9373, 42.7644, 45.4002, 44.5717
     ],
-    millRatio: [
-      1.27885, 2.55823, 2.55483, 1.27673, 1.27806, 1.27519, 1.28007, 1.2765,
-      1.27926, 1.27672, 1.27661, 1.27467, 1.27953, 1.27888, 1.27565, 1.27771,
-      1.27596, 1.27589, 1.28103, 1.27639, 1.27779, 1.28219, 1.28072, 1.27904,
-      1.27935, 1.27732, 1.27384, 1.28013, 1.27797, 1.27636, 1.27728, 1.27603,
-    ],
-    gSidePressure: [
-      3061.61, 6126.67, 6133.87, 3070.36, 3066.35, 3065.66, 3069.34, 3068.42,
-      3069.42, 3067.9, 3069.36, 3071.77, 3064.2, 3068.23, 3068.06, 3068.16,
-      3067.24, 3067.12, 3071.69, 3073.82, 3073.39, 3073.23, 3072.74, 3072.31,
-      3071.61, 3069.68, 3072.72, 3073.02, 3084.75, 3078.74, 3073.73, 3076.24,
-    ],
-    pSidePressure: [
-      2917.16, 5854.95, 5866.31, 2947.32, 2944.64, 2931.4, 2936.46, 2936.95,
-      3069.42, 3067.9, 3069.36, 3071.77, 3064.2, 3068.23, 3068.06, 3068.16,
-      3067.24, 3067.12, 3071.69, 3073.82, 3073.39, 3073.23, 3072.74, 3072.31,
-      3071.61, 3069.68, 3072.72, 3073.02, 3084.75, 3078.74, 3073.73, 3076.24,
-    ],
+    pol: [
+      15.2163, 30.9792, 28.6212, 13.8767, 16.945, 16.9013, 14.5092, 14.6775, 14.8126, 
+      15.7006, 14.8976, 14.5632, 14.5491, 14.7377, 15.3946, 14.7715, 15.5517, 16.481, 
+      15.2822, 14.6864, 14.7399, 14.8958, 14.6352, 13.8682, 13.4403, 13.9674, 14.6446, 
+      14.3913, 13.8698, 13.8542, 14.6058, 15.1232
+    ],    
     firstMillExtraction: [
       70.6455, 141.3713, 145.0071, 74.8984, 68.9943, 70.0832, 74.6836, 75.4253,
       73.9451, 72.6634, 73.7364, 73.1052, 73.2674, 73.2873, 68.6917, 69.6822,
@@ -80,15 +73,14 @@ export default function MillOperationalCard({
       const interval = setInterval(() => {
         setDataIndex((prevIndex) => {
           const newIndex =
-            prevIndex === millData.millSpeed.length - 1 ? 0 : prevIndex + 1;
-          console.log("Updated Index: ", newIndex); // Debugging
+            prevIndex === millData.fiber.length - 1 ? 0 : prevIndex + 1;
           return newIndex;
         });
       }, 5000); // Update every 5 seconds
 
       return () => clearInterval(interval); // Clean up the interval
     }
-  }, [timeFrame, millData.millSpeed.length]); // Only run for "Now"
+  }, [timeFrame, millData.fiber.length]); // Only run for "Now"
 
   // Update the logic in getDataForTimeFrame
 
@@ -96,13 +88,13 @@ export default function MillOperationalCard({
     if (timeFrame === "Now") {
       // This should plot the data progressively until dataIndex
       return {
-        labels: millData.millSpeed
+        labels: millData.fiber
           .slice(0, dataIndex + 1)
           .map((_, index) => index * 15),
         datasets: [
           {
-            label: "Mill Speed",
-            data: millData.millSpeed.slice(0, dataIndex + 1),
+            label: "Fiber 1st Bagasse",
+            data: millData.fiber.slice(0, dataIndex + 1),
             borderColor: "#7B61FF",
             backgroundColor: "#7B61FF",
             fill: false,
@@ -110,8 +102,8 @@ export default function MillOperationalCard({
             yAxisID: "y1",
           },
           {
-            label: "Mill Ratio",
-            data: millData.millRatio.slice(0, dataIndex + 1),
+            label: "Moisture 1st Bagasse",
+            data: millData.moisture.slice(0, dataIndex + 1),
             borderColor: "#F5A25D",
             backgroundColor: "#F5A25D",
             fill: false,
@@ -119,10 +111,10 @@ export default function MillOperationalCard({
             yAxisID: "y2",
           },
           {
-            label: "G Side Pressure",
-            data: millData.gSidePressure.slice(
+            label: "Pol 1st Bagasse",
+            data: millData.pol.slice(
               0,
-              Math.min(dataIndex + 1, millData.gSidePressure.length)
+              Math.min(dataIndex + 1, millData.pol.length)
             ), // Ensure slice only up to available data
             borderColor: "#4AB5EB",
             backgroundColor: "#4AB5EB",
@@ -131,22 +123,13 @@ export default function MillOperationalCard({
             yAxisID: "y3",
           },
           {
-            label: "P Side Pressure",
-            data: millData.pSidePressure.slice(0, dataIndex + 1),
-            borderColor: "#FAD862",
-            backgroundColor: "#FAD862",
-            fill: false,
-            tension: 0.4,
-            yAxisID: "y4",
-          },
-          {
             label: "First Mill Extraction",
             data: millData.firstMillExtraction.slice(0, dataIndex + 1),
             borderColor: "#456CFF",
             backgroundColor: "#456CFF",
             fill: false,
             tension: 0.4,
-            yAxisID: "y5",
+            yAxisID: "y4",
           },
         ],
       };
@@ -169,13 +152,13 @@ export default function MillOperationalCard({
   
       // Adjust to take the last N data points from the arrays
       return {
-        labels: staticMillData.millSpeed
+        labels: staticMillData.fiber
           .slice(-dataLength)
           .map((_, index) => index * 15),
         datasets: [
           {
-            label: "Mill Speed",
-            data: staticMillData.millSpeed.slice(-dataLength),
+            label: "Fiber 1st Bagasse",
+            data: staticMillData.fiber.slice(-dataLength),
             borderColor: "#7B61FF",
             backgroundColor: "#7B61FF",
             fill: false,
@@ -183,8 +166,8 @@ export default function MillOperationalCard({
             yAxisID: "y1",
           },
           {
-            label: "Mill Ratio",
-            data: staticMillData.millRatio.slice(-dataLength),
+            label: "Moisture 1st Bagasse",
+            data: staticMillData.moisture.slice(-dataLength),
             borderColor: "#F5A25D",
             backgroundColor: "#F5A25D",
             fill: false,
@@ -192,22 +175,13 @@ export default function MillOperationalCard({
             yAxisID: "y2",
           },
           {
-            label: "G Side Pressure",
-            data: staticMillData.gSidePressure.slice(-dataLength), // Plot last N data points
+            label: "Pol 1st Bagasse",
+            data: staticMillData.pol.slice(-dataLength),
             borderColor: "#4AB5EB",
             backgroundColor: "#4AB5EB",
             fill: false,
             tension: 0.4,
             yAxisID: "y3",
-          },
-          {
-            label: "P Side Pressure",
-            data: staticMillData.pSidePressure.slice(-dataLength),
-            borderColor: "#FAD862",
-            backgroundColor: "#FAD862",
-            fill: false,
-            tension: 0.4,
-            yAxisID: "y4",
           },
           {
             label: "First Mill Extraction",
@@ -216,7 +190,7 @@ export default function MillOperationalCard({
             backgroundColor: "#456CFF",
             fill: false,
             tension: 0.4,
-            yAxisID: "y5",
+            yAxisID: "y4",
           },
         ],
       };
@@ -238,7 +212,7 @@ export default function MillOperationalCard({
         position: "right",
         title: {
           display: true,
-          text: "Mill Speed",
+          text: "Fiber 1st Bagasse",
           color: "#7B61FF",
         },
       },
@@ -247,7 +221,7 @@ export default function MillOperationalCard({
         position: "right",
         title: {
           display: true,
-          text: "Mill Ratio",
+          text: "Moisture 1st Bagasse",
           color: "#F5A25D",
         },
       },
@@ -256,20 +230,11 @@ export default function MillOperationalCard({
         position: "right",
         title: {
           display: true,
-          text: "G Side Pressure",
+          text: "Pol 1st Bagasse",
           color: "#4AB5EB",
         },
       },
       y4: {
-        type: "linear",
-        position: "right",
-        title: {
-          display: true,
-          text: "P Side Pressure",
-          color: "#FAD862",
-        },
-      },
-      y5: {
         type: "linear",
         position: "left",
         title: {

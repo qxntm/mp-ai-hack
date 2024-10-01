@@ -1,21 +1,23 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
-  ChartOptions
+  ChartOptions,
 } from "chart.js";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend
@@ -39,8 +41,12 @@ export default function JuiceExtractionCard({
     if (!juiceData || !juiceData.actual.length) return; // Check if juiceData exists and has data
 
     const interval = setInterval(() => {
-      setDataIndex((prevIndex) => (prevIndex + 1) % juiceData.actual.length); // Loop back to 0 when reaching the end
-    }, 5000); // Update every 15 seconds
+      setDataIndex((prevIndex) => {
+        const newIndex =
+          prevIndex === juiceData.predict.length - 1 ? 0 : prevIndex + 1;
+        return newIndex;
+      }); // Increment but stop at the last prediction index
+    }, 5000); // Update every 5 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
@@ -50,35 +56,51 @@ export default function JuiceExtractionCard({
   }
 
   const chartData = {
-    labels: juiceData.actual.slice(0, dataIndex + 1).map((_, index) => index * 15), // Assuming intervals in seconds
+    labels: Array.from({ length: dataIndex + 1 }, (_, i) => i * 15), // Time intervals (0s, 15s, 30s...)
     datasets: [
       {
         label: "Predict",
-        data: juiceData.predict.slice(0, dataIndex + 1),
-        backgroundColor: "#062F6E", // Blue color
+        data: juiceData.predict.slice(0, dataIndex + 1), // Plot the predict values first
+        borderColor: "#062F6E",
+        backgroundColor: "#062F6E",
+        fill: false,
+        tension: 0.3,
       },
       {
         label: "Actual",
-        data: juiceData.actual.slice(0, dataIndex + 1),
-        backgroundColor: "#00AEEF", // Lighter blue
+        data: juiceData.actual
+          .slice(0, Math.max(0, dataIndex))
+          .map((val, i) => {
+            const correspondingPredictIndex = i; // Actual should plot one step behind
+            return {
+              x: correspondingPredictIndex * 15, // Aligns with the correct time
+              y: val,
+            };
+          }),
+        borderColor: "#00AEEF",
+        backgroundColor: "#00AEEF",
+        fill: false,
+        tension: 0.3,
       },
     ],
   };
 
-  const options: ChartOptions<"bar"> = {
+  const options: ChartOptions<"line"> = {
     responsive: true,
     maintainAspectRatio: false,
     scales: {
       x: {
         title: {
           display: false,
-          text: "Time (seconds)",
+          text: "Time",
         },
       },
       y: {
-        beginAtZero: true,
+        beginAtZero: false,
+        min: 60,
+        max: 90,
         title: {
-          display: true,
+          display: false,
           text: "Value",
           font: {
             size: 14,
@@ -111,11 +133,13 @@ export default function JuiceExtractionCard({
         </div>
         <div className="flex flex-col items-center">
           <div className="text-sm text-primary-blue">RMSE</div>
-          <div className="text-primary-navy-blue font-bold text-3xl">{rmse}%</div>
+          <div className="text-primary-navy-blue font-bold text-3xl">
+            {rmse}%
+          </div>
         </div>
       </div>
       <div className="h-[285px] mt-[20px]">
-        <Bar data={chartData} options={options} />
+        <Line data={chartData} options={options} />
       </div>
     </div>
   );
