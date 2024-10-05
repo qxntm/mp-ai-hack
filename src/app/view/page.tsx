@@ -33,14 +33,14 @@ export default function Home() {
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div className="text-5xl font-bold text-primary-navy-blue">
-            Machine Configuration
+            Dashboard
           </div>
           <div
             className="hover:opacity-50 hover:cursor-pointer"
             title="Switch View"
             onClick={() => {
-              router.push("/view");
-            }}
+              router.push("/");
+            }} 
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -53,85 +53,76 @@ export default function Home() {
             </svg>
           </div>
         </div>
-        <div className="grid grid-cols-4 gap-[25px]">
-          <SmallCard
-            iconType="psfSpeed"
-            value={currentData.psf_speed || 0}
-            prediction={currentData.psf_speed_predict}
-            unit="rpm"
-          />
-          <SmallCard
-            iconType="psfCurrent"
-            value={currentData.psf_current || 0}
-          />
-          <SmallCard
-            iconType="crushingSpeed"
-            value={currentData.crushing_speed || 0}
-            prediction={currentData.crushing_speed_predict}
-            unit="rpm"
-          />
-          <SmallCard
-            iconType="crushingCurrent"
-            value={currentData.crushing_current || 0}
-          />
-          <SmallCard
-            iconType="g"
-            value={currentData.g_side_pressure || 0}
-            prediction={currentData.g_side_pressure_predict}
-            unit="Psi."
-          />
-          <SmallCard
-            iconType="p"
-            value={currentData.p_side_pressure || 0}
-            prediction={currentData.p_side_pressure_predict}
-            unit="Psi."
-          />
-          <SmallCard
-            iconType="ratio"
-            value={currentData.psf_speed || 0}
-            prediction={currentData.psf_speed_predict}
-            unit=""
-          />
-        </div>
-      </div>
-
-      {/* Target section */}
-      <div className="flex flex-col gap-6">
-        <div className="text-5xl font-bold text-primary-navy-blue mt-10">
-          Target
-        </div>
-        <div className="flex">
-          <div className="w-1/5 mr-[25px] flex flex-col space-y-[25px]">
+        <div className="grid grid-cols-1 gap-[25px]">
+          <div className="grid grid-cols-4 grid-rows-3 gap-[25px]">
+            <div className="row-span-2">
+              <MillExtractionCard
+                percentage={currentData.mill_extraction}
+                prediction={currentData.mill_extraction_predict}
+              />
+            </div>
+            <SmallCard
+              iconType="psfSpeed"
+              value={currentData.psf_speed || 0}
+              prediction={currentData.psf_speed_predict}
+              unit="rpm"
+            />
+            <SmallCard
+              iconType="crushingSpeed"
+              value={currentData.crushing_speed || 0}
+              prediction={currentData.crushing_speed_predict}
+              unit="rpm"
+            />
+            <SmallCard
+              iconType="g"
+              value={currentData.g_side_pressure || 0}
+              prediction={currentData.g_side_pressure_predict}
+              unit="Psi."
+            />
+            <SmallCard
+              iconType="p"
+              value={currentData.p_side_pressure || 0}
+              prediction={currentData.p_side_pressure_predict}
+              unit="Psi."
+            />
+            <SmallCard
+              iconType="ratio"
+              value={currentData.psf_speed || 0}
+              prediction={currentData.psf_speed_predict}
+              unit=""
+            />
+            <SmallCard
+              iconType="psfCurrent"
+              value={currentData.psf_current || 0}
+            />
             <PiCard value={90} />
-            <MillExtractionCard
-              percentage={currentData.mill_extraction}
-              prediction={currentData.mill_extraction_predict}
+            <SmallCard
+              iconType="crushingCurrent"
+              value={currentData.crushing_current || 0}
             />
           </div>
-          <div className="flex flex-col justify-between w-1/5 mr-[25px]">
-            <TargetCard
-              iconType="pol"
-              first={currentData.pol_first_bagasse_percentage || 0}
-              shredded={currentData.pol_shredded_cane_percentage || 0}
-            />
-          </div>
-          <div className="flex flex-col justify-between w-1/5 mr-[25px]">
-            <TargetCard
-              iconType="fiber"
-              first={currentData.fiber_first_bagasse_percentage || 0}
-              shredded={currentData.fiber_shredded_cane_percentage || 0}
-            />
-          </div>
-          <div className="flex flex-col justify-between w-1/5 mr-[25px]">
-            <TargetCard
-              iconType="moisture"
-              first={currentData.moisture_first_bagasse_percentage || 0}
-              shredded={currentData.moisture_shredded_cane_percentage || 0}
-            />
-          </div>
-          <div className="w-1/5">
-            <ChuteLevelCard percentage={currentData.chute_level} />
-          </div>
+        </div>
+        <div className="grid grid-cols-4 gap-[25px]">
+          <TargetCard
+            iconType="pol"
+            first={currentData.pol_first_bagasse_percentage || 0}
+            shredded={currentData.pol_shredded_cane_percentage || 0}
+          />
+          <TargetCard
+            iconType="fiber"
+            first={currentData.fiber_first_bagasse_percentage || 0}
+            shredded={currentData.fiber_shredded_cane_percentage || 0}
+          />
+          <TargetCard
+            iconType="moisture"
+            first={currentData.moisture_first_bagasse_percentage || 0}
+            shredded={currentData.moisture_shredded_cane_percentage || 0}
+          />
+          <ChuteLevelCard
+            percentage={currentData.chute_level}
+            prediction={0}
+            unit="%"
+          />
         </div>
         <MillOperationalCard
           millData={{

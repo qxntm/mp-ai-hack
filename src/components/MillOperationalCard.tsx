@@ -108,7 +108,7 @@ export default function MillOperationalCard({
       return {
         labels: millData.fiber
           .slice(0, dataIndex + 1)
-          .map((_, index) => index * 15),
+          .map((_, index) => index),
         datasets: [
           {
             label: "Fiber 1st Bagasse",
@@ -282,12 +282,12 @@ export default function MillOperationalCard({
           </div>
           <div className="text-sm text-primary-blue">Insight</div>
         </div>
-        <div>
+        <div className="">
           {/* Dropdown for time selection */}
           <select
             value={timeFrame}
             onChange={(e) => setTimeFrame(e.target.value)}
-            className="p-2 border border-gray-300 rounded-lg h-[40px] w-[120px] text-xs"
+            className="p-2 border border-gray-300 rounded-lg h-[40px] w-[120px] text-xs hover:cursor-pointer"
           >
             <option value="Now">Now</option>
             <option value="Last 4 hours">Last 4 hours</option>

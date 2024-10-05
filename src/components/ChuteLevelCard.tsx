@@ -1,18 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import Status from "./Status";
 
 interface valueProps {
   percentage: number;
+  prediction?: number;
+  unit?: string;
 }
 
-export default function ChuteLevelCard({ percentage }: valueProps) {
+export default function ChuteLevelCard({
+  percentage,
+  prediction,
+  unit,
+}: valueProps) {
   const [isCrisis, setIsCrisis] = useState(false);
-  const barHeight = (percentage/100)*268
+  const barHeight = (percentage / 100) * 268;
   const formattedChuteValue = parseFloat(percentage.toFixed(2));
 
   useEffect(() => {
     setIsCrisis(formattedChuteValue < 50 || formattedChuteValue > 80);
-  }, [percentage]);
+  }, [formattedChuteValue]);
 
   // Determine the color based on isCrisis or percentage
   const getLineColor = () => {
@@ -21,10 +28,17 @@ export default function ChuteLevelCard({ percentage }: valueProps) {
     }
     return "#062F6E"; // Regular color when not in crisis
   };
-  console.log(barHeight)
+
+  let status: "add" | "minus" | "equal" = "equal"; // Default to "equal" if no prediction
+
+  // Ensure status is one of the three accepted values
+  if (prediction !== undefined) {
+    status =
+      prediction > percentage ? "add" : prediction < percentage ? "minus" : "equal";
+  }
 
   return (
-    <div className="w-[283px] h-[400px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
+    <div className="min-w-[283px] min-h-[400px] bg-white px-[25px] py-[30px] rounded-2xl drop-shadow-xl">
       <div className="text-2xl text-primary-navy-blue font-bold">
         Chute Level
       </div>
@@ -41,8 +55,17 @@ export default function ChuteLevelCard({ percentage }: valueProps) {
           />
           {/* Percentage text */}
         </div>
-        <div className={`text-3xl font-bold ${ isCrisis ? "text-red" : "text-primary-navy-blue" }`}>
-          {formattedChuteValue}%
+        <div className="flex flex-col items-center">
+          <div
+            className={`text-3xl font-bold ${
+              isCrisis ? "text-red" : "text-primary-navy-blue"
+            }`}
+          >
+            {formattedChuteValue}%
+          </div>
+          {status !== "equal" && prediction !== undefined && (
+            <Status status={status} prediction={prediction} unit={unit} />
+          )}
         </div>
       </div>
     </div>

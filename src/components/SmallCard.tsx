@@ -68,7 +68,18 @@ const icons = {
     >
       <path d="M219.71,117.38a12,12,0,0,0-7.25-8.52L161.28,88.39l10.59-70.61a12,12,0,0,0-20.64-10l-112,120a12,12,0,0,0,4.31,19.33l51.18,20.47L84.13,238.22a12,12,0,0,0,20.64,10l112-120A12,12,0,0,0,219.71,117.38ZM113.6,203.55l6.27-41.77a12,12,0,0,0-7.41-12.92L68.74,131.37,142.4,52.45l-6.27,41.77a12,12,0,0,0,7.41,12.92l43.72,17.49Z"></path>
     </svg>
-  )
+  ),
+  ratio: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#062f6e"
+      viewBox="0 0 256 256"
+    >
+      <path d="M208.49,64.47l-144,144a12,12,0,1,1-17-17l144-144a12,12,0,0,1,17,17ZM47.72,104.27A40,40,0,1,1,76,116,39.72,39.72,0,0,1,47.72,104.27ZM60,76a16,16,0,1,0,4.69-11.31A15.87,15.87,0,0,0,60,76ZM220,180a40,40,0,1,1-11.72-28.29A39.71,39.71,0,0,1,220,180Zm-24,0a15.87,15.87,0,0,0-4.69-11.32h0A16,16,0,1,0,196,180Z"></path>
+    </svg>
+  ),
 };
 
 const name = {
@@ -111,21 +122,19 @@ export default function SmallCard({
   const formattedValue = parseFloat(value.toFixed(2));
 
   return (
-    <div className="min-w-[285px] h-[112.5px] bg-white px-[20px] py-[21px] rounded-2xl drop-shadow-xl">
-      <div className="flex gap-4 items-center">
-        <div className="rounded-full bg-custom-bg w-[70px] h-[70px] flex items-center justify-center">
-          {icons[iconType] || icons.psfSpeed}
-        </div>
-        <div>
-          <div className="text-sm text-primary-blue">{name[iconType]}</div>
-          <div className="flex items-center gap-x-3">
-            <div className="text-primary-navy-blue font-bold text-3xl">
-              {formattedValue}
-            </div>
-            {status !== "equal" && prediction !== undefined && (
-              <Status status={status} prediction={prediction} unit={unit} />
-            )}
+    <div className="min-w-[285px] min-h-[112.5px] bg-white px-[20px] py-[21px] rounded-2xl drop-shadow-xl flex gap-4 items-center">
+      <div className="rounded-full bg-custom-bg w-[70px] h-[70px] flex items-center justify-center">
+        {icons[iconType] || icons.psfSpeed}
+      </div>
+      <div>
+        <div className="text-sm text-primary-blue">{name[iconType]}</div>
+        <div className="flex items-center gap-x-3">
+          <div className="text-primary-navy-blue font-bold text-3xl">
+            {formattedValue}
           </div>
+          {status !== "equal" && prediction !== undefined && (
+            <Status status={status} prediction={prediction} unit={unit} />
+          )}
         </div>
       </div>
     </div>

@@ -28,12 +28,10 @@ interface JuiceExtractionProps {
     actual: number[];
     predict: number[];
   };
-  rmse: number;
 }
 
 export default function JuiceExtractionCard({
-  juiceData,
-  rmse,
+  juiceData
 }: JuiceExtractionProps) {
   const [dataIndex, setDataIndex] = useState(0); // Start from index 0
 
@@ -56,7 +54,7 @@ export default function JuiceExtractionCard({
   }
 
   const chartData = {
-    labels: Array.from({ length: dataIndex + 1 }, (_, i) => i * 15), // Time intervals (0s, 15s, 30s...)
+    labels: Array.from({ length: dataIndex + 1 }, (_, i) => i), // Time intervals (0s, 15s, 30s...)
     datasets: [
       {
         label: "Predict",
@@ -73,7 +71,7 @@ export default function JuiceExtractionCard({
           .map((val, i) => {
             const correspondingPredictIndex = i; // Actual should plot one step behind
             return {
-              x: correspondingPredictIndex * 15, // Aligns with the correct time
+              x: correspondingPredictIndex, // Aligns with the correct time
               y: val,
             };
           }),
@@ -130,12 +128,6 @@ export default function JuiceExtractionCard({
             Juice Extraction
           </div>
           <div className="text-sm text-primary-blue">Actual vs. Prediction</div>
-        </div>
-        <div className="flex flex-col items-center">
-          <div className="text-sm text-primary-blue">RMSE</div>
-          <div className="text-primary-navy-blue font-bold text-3xl">
-            {rmse}%
-          </div>
         </div>
       </div>
       <div className="h-[285px] mt-[20px]">
